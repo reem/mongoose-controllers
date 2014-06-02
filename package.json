@@ -1,7 +1,10 @@
 {
   "name": "mongoose-controllers",
-  "version": "0.2.0",
-  "dependencies": {},
+  "version": "0.3.0",
+  "dependencies": {
+    "q": "1.*",
+    "lodash": "2.*"
+  },
   "main": "./lib/index.js",
   "scripts": {
     "test": "./node_modules/gulp/bin/gulp.js test"
