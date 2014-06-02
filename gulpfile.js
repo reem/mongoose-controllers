@@ -11,8 +11,12 @@ gulp.task('lint', function () {
     .pipe(jshint.reporter('fail'));
 });
 
-gulp.task('test', ['lint'], function () {
+gulp.task('_test', ['lint'], function () {
   'use strict';
   return gulp.src('./tests/index.js')
     .pipe(mocha({bail: true}));
+});
+
+gulp.task('test', ['_test'], function () {
+  process.exit(0);
 });
