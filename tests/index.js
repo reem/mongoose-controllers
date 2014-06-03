@@ -10,10 +10,10 @@ var User = mongoose.model("User", new mongoose.Schema({
 var app = require('express')();
 app.use(require('body-parser')());
 
-app.get("/users", 
+app.get("/users",
   mongooseControllers.get(User, {name: ""}));
-app.post("/users/post", 
-  mongooseControllers.post(User, {name: "name"}));
+app.post("/users/post",
+  mongooseControllers.post(User, {name: "name"}, {}));
 
 var closeHandler = app.listen(3000);
 
@@ -60,28 +60,28 @@ describe('mongoose-controllers', function () {
     });
 
     it('should support robust queries', function (done) {
-      request.get(reqUrl + '/users', {form: 
+      request.get(reqUrl + '/users', {form:
         {appKey: "TestKey", matching: {name: "Test"}}
       }, function (error, response, body) {
         demand(!!error).to.be.false();
         demand(JSON.parse(body)[0].name).to.equal("Test");
         done();
-      });      
+      });
     });
   });
 
   describe('post', function () {
     it('should return 201 and post to the database on a post request.', function (done) {
       request.post(reqUrl + '/users/post', {
-        form: {name: "TestPost"} 
+        form: {name: "TestPost"}
       }, function (error, response) {
         demand(!!error).to.be.false();
         demand(response.statusCode).to.equal(201);
 
         User.findOne({name: "TestPost"}).exec()
-          .then(function (drug) {
-            demand(drug).to.exist();
-            drug.remove();
+          .then(function (user) {
+            demand(user).to.exist();
+            user.remove();
           }).then(function () {
             done();
           });
